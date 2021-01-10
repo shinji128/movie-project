@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1><a herf="{% url 'index' %}">誰でも映画評論家</a></h1>
+            <div class="header-menu">
+                <!--is_authenticatedでユーザが認証済みがどうかを調べる-->
+                {% if request.user.is_authenticated %}
+                    <span><a href="">お気に入り投稿者</a></span>
+                    <span><a href="{% url 'create' %}">記事を投稿する</a></span>
+                    <span><a href="{% url 'list' %}">投稿記事一覧</a></span>
+                    <span><a href="{% url 'logout' %}">ログアウト</a></span>
+                {% else %}
+                    <span><a href="{% url 'login' %}">ログイン</a></span>
+                    <span><a href="{% url 'signup' %}">新規登録</a></span>
+                    <span><a href="">お試しログイン</a></span>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        {% for message in messages%}
+            <p class="message-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+        {% block content %}
+        コンテンツがありません。
+        {% endblock %}
+    </div>
+</body>
+</html>

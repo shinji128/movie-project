@@ -9,5 +9,8 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('list/', views.List.as_view(template_name='post_list.html'), name="list"),
     path('detail/<pk>/', views.Detail.as_view(template_name='post_detail.html'), name="detail"),
-    path('create/', views.Create.as_view(template_name='post_form.html'), name="create")
+    path('create/', views.Create.as_view(template_name='post_form.html'), name="create"),
+    path('update/<pk>/', views.Update.as_view(template_name='post_form.html'), name="update"),
+    path('delete/<pk>', views.Delete.as_view(template_name='post_confirm_delete.html'), name="delete"),
+    path('_delete/', views._delete, name='_delete'),
 ]

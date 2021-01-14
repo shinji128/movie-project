@@ -24,9 +24,6 @@ class Tag(models.Model):
     
     def __str__(self): #カテゴリーの自分自信の名前を示す
         return self.name
-    
-    def __str__(self): #カテゴリーの自分自信の名前を示す
-        return self.name
 
 class Post(models.Model):
 

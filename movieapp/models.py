@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse_lazy
 import json# 追加
 import requests # 追加
-#from .forms import MovieForm # 追加
+from .forms import MovieForm# 追加
 
 # Create your models here.
 
@@ -24,18 +24,6 @@ class Tag(models.Model):
     
     def __str__(self): #カテゴリーの自分自信の名前を示す
         return self.name
-
-class Query(models.Model):
-    name = models.TextField(
-        max_length=300,
-        null=True,
-        blank=True)
-
-class Query(models.Model):
-    name = models.TextField(
-        max_length=300,
-        null=True,
-        blank=True)
     
     def __str__(self): #カテゴリーの自分自信の名前を示す
         return self.name
@@ -59,6 +47,20 @@ class Post(models.Model):
         movietitle = results['title']
         return movietitle
 
+        if request.method == 'POST':
+            movie_form = MovieForm(request.POST)
+            if movie_form.is_valid():
+                # 映画検索ボタンが押された場合
+                if 'search_movie' in request.POST:
+                    query = request.POST['query']
+                    movietitle = get_movietitle(query)
+                    # 映画が取得できなかった場合はメッセージを出してリダイレクト
+                    if not movie_title:
+                        messages.warning(request, "映画タイトルを取得できませんでした。")
+                        return redirect('movieapp:search_movies')
+                    # 映画が取得できたらフォームに入力してあげる
+                    movie_form = MovieForm(initial={'query':query, 'movietitle': movietitle})
+    
     created = models.DateTimeField( #記事作成時に自動で時間を入力
         auto_now=True, #新規作成時にのみ時間が入力され、編集時には追加されない
         editable=False, #ユーザーが編集できないように設定

@@ -3,6 +3,10 @@ from . import models
 
 # Register your models here.
 
+@admin.register(models.Movietitle)
+class MovietitleAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(models.Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
@@ -11,6 +15,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(models.Post)
+@admin.register(models.movieblog)
 class PostAdmin(admin.ModelAdmin):
     pass

@@ -6,17 +6,5 @@
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="投稿" class="btn btn-primary" />
-    <div class="movie-form-movietitle">
-        <div>
-            {{ movie_form.non_field_errors }}
-            {{ movie_form.query.label_tag }}
-            {{ movie_form.query }}
-            <input type="submit" name="search_movie" value="映画を検索" />
-            <span>{{ movie_form.query.help_text }}</span>
-        </div>
-        <div>
-            {{ movie_form.movietitle.label_tag }} {{ movie_form.movietitle }}
-        </div>
-    </div>
 </form>
 {% endblock %}

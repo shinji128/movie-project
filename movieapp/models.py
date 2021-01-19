@@ -15,12 +15,6 @@ class Category(models.Model):
     def __str__(self): #カテゴリーの自分自信の名前を示す
         return self.name
 
-class User(models.Model):
-    name = User.username
-
-    def __str__(self): #カテゴリーの自分自信の名前を示す
-        return self.name
-
 class Movietitle(models.Model):
     name = models.CharField(
         max_length=50,

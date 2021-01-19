@@ -2,9 +2,8 @@ from django.db import models
 from django.urls import reverse_lazy
 from users.models import User, UserManager
 from django.db import models
-from django.contrib.auth import get_user_model
-from django import forms
-from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -13,6 +12,12 @@ class Category(models.Model):
         blank=False,
         unique=True)
     
+    def __str__(self): #カテゴリーの自分自信の名前を示す
+        return self.name
+
+class User(models.Model):
+    name = User.username
+
     def __str__(self): #カテゴリーの自分自信の名前を示す
         return self.name
 
@@ -35,16 +40,6 @@ class Tag(models.Model):
     def __str__(self): #カテゴリーの自分自信の名前を示す
         return self.name
 
-class Acount(User):
-    name = models.CharField(
-        max_length=200,
-        null=True,
-        blank=True,
-        default='Acount')
-        
-    def __str__(self): #カテゴリーの自分自信の名前を示す
-        return self.username
-
 class movieblog(models.Model):
 
     created = models.DateTimeField( #記事作成時に自動で時間を入力
@@ -59,12 +54,12 @@ class movieblog(models.Model):
         null=False,
         blank=False)
     
-    acount = models.ForeignKey(
-        Acount,
-        editable=False,
+    user = models.ForeignKey(
+        User,
+        max_length=200,
         blank=True,
         null=True,
-        on_delete=models.CASCADE)
+        on_delete=models.SET_NULL)
 
     movietitle = models.ForeignKey(
         Movietitle,

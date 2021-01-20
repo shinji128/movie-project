@@ -36,6 +36,21 @@ class Create(CreateView):
     model = movieblog
     # 編集対象のフィールド
     fields = ["title", "body", "category", "tags", "movietitle"]
+    def form_valid(self, form):
+        user = self.request.user
+        data = form.cleaned_data
+        title = data['title']
+        body = data['body']
+        category = data['category']
+        tags = data['tags']
+        movietitle = data['movietitle']
+        movie_blog = movieblog.objects.create(user=user,
+                                              title=title,
+                                              body=body,
+                                              category=category,
+                                              movietitle=movietitle)
+        movie_blog.tags.set(tags)
+        return redirect('index')
 
 class Update(UpdateView):
     model = movieblog

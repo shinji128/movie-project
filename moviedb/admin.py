@@ -3,18 +3,14 @@ from . import models
 
 # Register your models here.
 
-@admin.register(models.Movietitle)
-class MovietitleAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(models.Director)
-class DirectorAdmin(admin.ModelAdmin):
-    pass
-
 @admin.register(models.Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(models.Tag)
 class TagAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(models.Movieinfo)
+class MovieinfoAdmin(admin.ModelAdmin):
     pass

@@ -10,12 +10,12 @@ def index(request):
     return render(request, 'index.html',)
 
 class List(ListView):
-    model = movieinfo
+    model = Movieinfo
 
 class Detail(DetailView):
-    model = movieinfo
+    model = Movieinfo
 
-class Create(CreateView):
-    model = movieinfo
+class Mcreate(CreateView):
+    model = Movieinfo
     # 編集対象のフィールド
-    fields = ["movietitle", "director", "release"]
+    fields = ["title", "director", "release",]

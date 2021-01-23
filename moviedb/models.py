@@ -47,7 +47,7 @@ class Movieinfo(models.Model):
         blank=True)
 
     def __str__(self):
-        return self.title
+        return self.movietitle
 
     def get_absolute_url(self):
         return reverse_lazy("moviedetail", args=[self.id])

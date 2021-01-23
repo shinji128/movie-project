@@ -6,9 +6,9 @@
 <div>
     <p>{{ object.created }}</p>
     <p>{{ object.body }}</p>
-    <br>{{ object.user.username }}
-    <br>{{ object.movietitle }}
-    <p>{{ object.category }}</p>
+    <p>{{ object.user.username }}</p>
+    <p>{{ object.movieinfo.movietitle }}</p>
+    <p>{{ object.movieinfo.category }}</p>
 
 </div>
 <p><a href="{% url 'update' object.pk %}">編集</a></p>

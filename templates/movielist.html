@@ -4,7 +4,7 @@
 <h2>記事を投稿したい映画を選択してください</h2>
 <ol>
     {% for item in object_list %}
-    <li><a href="{% url 'moviedetail' item.id %}">{{ item.title }}</a></li>
+    <li><a href="{% url 'moviedetail' item.id %}">{{ item.movietitle }}</a></li>
     {% endfor %}
 </ol>
 {% endblock %}

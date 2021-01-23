@@ -15,7 +15,7 @@
                 <!--is_authenticatedでユーザが認証済みがどうかを調べる-->
                 {% if request.user.is_authenticated %}
                     <span><a href="">お気に入り投稿者</a></span>
-                    <span><a href="{% url 'create' %}">記事を投稿する</a></span>
+                    <span><a href="">記事を投稿する</a></span>
                     <span><a href="{% url 'list' %}">投稿記事一覧</a></span>
                     <span><a href="{% url 'logout' %}">ログアウト</a></span>
                 {% else %}

@@ -13,10 +13,9 @@ class Movielist(ListView):
 
 class Moviedetail(DetailView):
     model = Movieinfo
-    def get(request, pk):
-        movie_blog = movieblog.objects.create(Movietitle=Movieinfo.title)
-        return redirect('http://127.0.0.1:8000/create/pk')
-
+    #def get(request, pk):
+    #    movie_blog = movieblog.objects.create(Movietitle=Movieinfo.title)
+    #    return redirect('http://127.0.0.1:8000/create/pk')
 
 class Moviecreate(CreateView):
     model = Movieinfo

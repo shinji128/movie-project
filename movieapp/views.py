@@ -43,8 +43,8 @@ class Create(CreateView):
         title = data['title']
         body = data['body']
         movie_blog = movieblog.objects.create(user=user,
-                                              title=title,
                                               movieinfo=movieinfo,
+                                              title=title,
                                               body=body)
         return redirect('list')
 

@@ -1,35 +1,7 @@
 from django.db import models
 from django.urls import reverse_lazy
 from users.models import User, UserManager
-
-class Category(models.Model):
-    name = models.CharField(
-        max_length=50,
-        null=False,
-        blank=False,
-        unique=True)
-    
-    def __str__(self): #カテゴリーの自分自信の名前を示す
-        return self.name
-
-class Movietitle(models.Model):
-    name = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        unique=True)
-    
-    def __str__(self): #カテゴリーの自分自信の名前を示す
-        return self.name
-
-class Tag(models.Model):
-    name = models.CharField(
-        max_length=300,
-        null=False,
-        blank=False)
-
-    def __str__(self): #カテゴリーの自分自信の名前を示す
-        return self.name
+from moviedb.models import Category, Tag, Movieinfo
 
 class movieblog(models.Model):
 
@@ -53,11 +25,22 @@ class movieblog(models.Model):
         on_delete=models.SET_NULL)
 
     movietitle = models.ForeignKey(
-        Movietitle,
+        Movieinfo,
         max_length=200,
         blank=True,
         null=True,
         on_delete=models.SET_NULL)
+
+    category = models.ForeignKey(
+        Category,
+        max_length=200,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL)
+    
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True)
 
     title = models.CharField(
         max_length=200,
@@ -67,14 +50,6 @@ class movieblog(models.Model):
     body = models.TextField(
         blank=True,
         null=False)
-
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE) #カテゴリーが削除されたらCASCADEで記事も削除されるように設定されている
-
-    tags = models.ManyToManyField(
-        Tag, #実際にどのブログのことなのかを指定
-        blank=True)
   
     def __str__(self):
         return self.title

@@ -6,8 +6,11 @@
     <p>監督：{{ object.director }}</p>
     <p>公開日：{{ object.release }}</p>
     <p>カテゴリー：{{ object.category }}</p>
-    {% for movieinfo in object_tags %}
-    <p>{{ movieinfo.tags }}</p>
-     {% endfor %}
+    <ul>
+    {% for tag in object.tags.all %}
+    <li><p>{{ tag.name }}</p></li>
+    {% endfor %}
+</ul>
 </div>
+<p><a href="http://127.0.0.1:8000/create/">記事を投稿する</a></p>
 {% endblock %}

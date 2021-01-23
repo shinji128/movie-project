@@ -22,7 +22,7 @@ class Tag(models.Model):
 
 class Movieinfo(models.Model):
 
-    title = models.CharField(
+    movietitle = models.CharField(
         max_length=200,
         blank=True,
         null=True)

@@ -38,7 +38,7 @@ class Create(CreateView):
     fields = ["title", "body", "category"]
     def form_valid(self, form):
         user = self.request.user
-        movietitle = self.request.movietitle
+        movietitle = self.request.movieinfo
         data = form.cleaned_data
         title = data['title']
         body = data['body']
@@ -46,7 +46,7 @@ class Create(CreateView):
         tags = data['tags']
         movie_blog = movieblog.objects.create(user=user,
                                               title=title,
-                                              movietitle=movietitle
+                                              movieinfo=movieinfo
                                               body=body,
                                               category=category,
                                               tags=tags)

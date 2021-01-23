@@ -24,12 +24,12 @@ class movieblog(models.Model):
         null=True,
         on_delete=models.SET_NULL)
 
-    movietitle = models.ForeignKey(
-        Movieinfo,
-        max_length=200,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL)
+    #movietitle = models.ForeignKey(
+    #    Movieinfo.movietitle,
+    #    max_length=200,
+    #    blank=True,
+    #    null=True,
+    #    on_delete=models.SET_NULL)
 
     category = models.ForeignKey(
         Category,

@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse_lazy
 from users.models import User, UserManager
-from moviedb.models import Category, Tag, Movieinfo
+from moviedb.models import Movieinfo
 
 class movieblog(models.Model):
 
@@ -24,23 +24,12 @@ class movieblog(models.Model):
         null=True,
         on_delete=models.SET_NULL)
 
-    #movietitle = models.ForeignKey(
-    #    Movieinfo.movietitle,
-    #    max_length=200,
-    #    blank=True,
-    #    null=True,
-    #    on_delete=models.SET_NULL)
-
-    category = models.ForeignKey(
-        Category,
+    movieinfo = models.ForeignKey(
+        Movieinfo,
         max_length=200,
         blank=True,
         null=True,
         on_delete=models.SET_NULL)
-    
-    tags = models.ManyToManyField(
-        Tag,
-        blank=True)
 
     title = models.CharField(
         max_length=200,

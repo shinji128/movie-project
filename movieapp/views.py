@@ -35,21 +35,17 @@ class Detail(DetailView):
 class Create(CreateView):
     model = movieblog
     # 編集対象のフィールド
-    fields = ["title", "body", "category"]
+    fields = ["title", "body"]
     def form_valid(self, form):
         user = self.request.user
-        movietitle = self.request.movieinfo
+        movieinfo = self.request.movieinfo
         data = form.cleaned_data
         title = data['title']
         body = data['body']
-        category = data['category']
-        tags = data['tags']
         movie_blog = movieblog.objects.create(user=user,
                                               title=title,
-                                              movieinfo=movieinfo
-                                              body=body,
-                                              category=category,
-                                              tags=tags)
+                                              movieinfo=movieinfo,
+                                              body=body)
         return redirect('list')
 
 class Update(UpdateView):

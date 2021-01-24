@@ -2,6 +2,7 @@
 
 {% block content %}
 <h2>新規投稿</h2>
+<h2>{{ movie.movietitle }}</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

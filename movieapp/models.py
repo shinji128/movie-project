@@ -1,9 +1,59 @@
 from django.db import models
 from django.urls import reverse_lazy
 from users.models import User, UserManager
-from moviedb.models import Movieinfo
 
-class movieblog(models.Model):
+class Category(models.Model):
+    name = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+        unique=True)
+    
+    def __str__(self): #カテゴリーの自分自信の名前を示す
+        return self.name
+
+class Tag(models.Model):
+    name = models.CharField(
+        max_length=300,
+        null=False,
+        blank=False)
+
+    def __str__(self): #カテゴリーの自分自信の名前を示す
+        return self.name
+
+class Movieinfo(models.Model):
+
+    movietitle = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True)
+
+    director = models.CharField(
+        max_length=200,
+        null=False,
+        blank=False)
+
+    release = models.DateField(
+        auto_now=False,
+        auto_now_add=False, 
+        null=False,
+        blank=False)
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE)
+
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True)
+
+    def __str__(self):
+        return self.movietitle
+
+    def get_absolute_url(self):
+        return reverse_lazy("moviedetail", args=[self.id])
+
+class Movieblog(models.Model):
 
     created = models.DateTimeField( #記事作成時に自動で時間を入力
         auto_now=True, #新規作成時にのみ時間が入力され、編集時には追加されない

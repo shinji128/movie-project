@@ -42,7 +42,7 @@ class MovieDetail(DetailView):
 @login_required
 def post_movieblog(request):
     if request.method == "POST":
-        movie = get_object_or_404(Movieinfo, pk=pk)
+        movie = get_object_or_404(Movieinfo, pk=request.POST['movieinfo'])
         form = postMovieblogForm(request.POST or None)
         if form.is_valid():
             form = form.save(commit=False)

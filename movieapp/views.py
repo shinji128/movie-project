@@ -41,9 +41,9 @@ class Userbloglist(ListView):
     model = Movieblog
 
     def get_queryset(self):
-        q_word = self.request.GET.get('username')
+        q_word = self.request.GET.get('query')
         if q_word:
-            object_list = Movieblog.objects.filter(user__iexact=q_word)
+            object_list = Movieblog.objects.filter(username__iexact=q_word)
         return object_list
 
     #if request.method == "GET":

@@ -41,9 +41,9 @@ class Userdetail(DetailView):
     model = User
 
     def get_queryset(self):
-        q_word = self.request.GET.get('query')
-        if q_word:
-            object_list = Movieblog.objects.filter(user__icontains=q_word)
+        username = self.request.GET.get('query')
+        if username:
+            object_list = Movieblog.objects.filter(user__iexact=username)
         return object_list
 
     #if request.method == "GET":

@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm, postMovieblogForm
+from users.models import User
 from django.contrib.auth import authenticate, login
 from django.views.generic import ListView, DetailView
 from .models import Movieinfo, Movieblog
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-#import json # 追加
-#import requests # 追加
 # Create your views here.
 
 def index(request):
@@ -15,7 +14,7 @@ def index(request):
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        if form.is_valid(): #入力された値にエラーが無いかを確認する
+        if form.is_valid():
             new_user = form.save()
             input_email = form.cleaned_data['email']
             input_password = form.cleaned_data['password1']
@@ -34,7 +33,24 @@ class MovieList(ListView):
         q_word = self.request.GET.get('query')
         if q_word:
             object_movielist = Movieinfo.objects.filter(movietitle__icontains=q_word)
+        else:
+            object_movielist = Movieinfo.objects.all()
         return object_movielist
+
+class Userdetail(DetailView):
+    model = User
+
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+        if q_word:
+            object_list = Movieblog.objects.filter(user__icontains=q_word)
+        return object_list
+
+    #if request.method == "GET":
+        #print(request.POST)
+        #print(request.POST['movieinfo'])
+    #    user = get_object_or_404(User, pk=request.GET('movieinfo'))
+    #return render(request, 'userdetail.html', {'user':user})
 
 class MovieDetail(DetailView):
     model = Movieinfo
@@ -42,6 +58,12 @@ class MovieDetail(DetailView):
 @login_required
 def post_movieblog(request):
     if request.method == "POST":
+        #print(request.POST)
+        #print(request.POST['movieinfo'])
+        #import logging
+        #logger = logging.getLogger(__name__)
+        #logger.info(request.POST)
+        #logger.info(request.POST['movieinfo'])
         movie = get_object_or_404(Movieinfo, pk=request.POST['movieinfo'])
         form = postMovieblogForm(request.POST or None)
         if form.is_valid():
@@ -56,27 +78,12 @@ def post_movieblog(request):
 class Detail(DetailView):
     model = Movieblog
 
-
-
-#class Create(CreateView):
-#    model = Movieblog
-    # 編集対象のフィールド
-#    fields = ["title", "body"]
-#    def form_valid(self, form):
-#        user = self.request.user
-#        movieinfo = self.request.movieinfo
-#        data = form.cleaned_data
-#        title = data['title']
-#        body = data['body']
-#        movie_blog = movieblog.objects.create(user=user,
-#                                              movieinfo=movieinfo,
-#                                              title=title,
-#                                              body=body)
-#        return redirect('list')
+class List(ListView):
+    model = Movieblog
 
 class Update(UpdateView):
     model = Movieblog
-    fields = ["title", "body", "movietitle"]
+    fields = ["title", "body"]
 
 class Delete(DeleteView):
     model = Movieblog
@@ -84,15 +91,3 @@ class Delete(DeleteView):
 
 def _delete(request):
     return render(request, 'delete.html',)
-
-#class Movielist(ListView):
-#    model = Movieinfo
-    
-#    def get_queryset(self):
-#        q_word = self.request.GET.get('query')
-#        if q_word:
-#            object_movielist = Movieinfo.objects.filter(movietitle__icontains=q_word)
-#        return object_movielist
-
-#class Moviedetail(DetailView):
-#    model = Movieinfo

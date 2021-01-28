@@ -6,7 +6,9 @@
 <div>
     <p>{{ object.created }}</p>
     <p>{{ object.body }}</p>
-    <p>{{ object.user.username }}</p>
+
+    <a href="{% url 'userdetail' object.pk %}">{{ object.user.username }}</a>
+
     <p>{{ object.movieinfo.movietitle }}</p>
     <p>{{ object.movieinfo.category }}</p>
 

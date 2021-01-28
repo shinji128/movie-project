@@ -12,7 +12,8 @@
     {% endfor %}
     </ul>
     <form action="{% url 'post_movieblog' %}" method="POST">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+        <input type="hidden" name="movieinfo" value="{{ object.pk }}">
         <button type="submit" class="btn">レビューする</button>
     </form>
 </div>

@@ -38,11 +38,11 @@ class MovieList(ListView):
         return object_movielist
 
 class Userdetail(DetailView):
-    model = User
+    model = Movieblog
 
     def get_queryset(self):
-        username = self.request.GET.get('query')
-        if username:
+        q_word = self.request.GET.get('username')
+        if q_word:
             object_list = Movieblog.objects.filter(user__iexact=username)
         return object_list
 

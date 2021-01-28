@@ -37,13 +37,13 @@ class MovieList(ListView):
             object_movielist = Movieinfo.objects.all()
         return object_movielist
 
-class Userdetail(DetailView):
+class Userbloglist(ListView):
     model = Movieblog
 
     def get_queryset(self):
         q_word = self.request.GET.get('username')
         if q_word:
-            object_list = Movieblog.objects.filter(user__iexact=username)
+            object_list = Movieblog.objects.filter(user__iexact=q_word)
         return object_list
 
     #if request.method == "GET":

@@ -7,7 +7,12 @@
     <p>{{ object.created }}</p>
     <p>{{ object.body }}</p>
 
-    <a href="{% url 'userdetail' object.pk %}">{{ object.user.username }}</a>
+    <form action="{% url 'userdetail' object.pk %}" method="GET">
+        {% csrf_token %}
+        <input type="hidden" name="user" value="{{ object.pk }}">
+        <button type="submit" class="btn">{{ object.user.username }}</button>
+    </form>
+
 
     <p>{{ object.movieinfo.movietitle }}</p>
     <p>{{ object.movieinfo.category }}</p>

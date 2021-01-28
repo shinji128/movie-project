@@ -32,19 +32,24 @@ class MovieList(ListView):
     def get_queryset(self):
         q_word = self.request.GET.get('query')
         if q_word:
-            object_movielist = Movieinfo.objects.filter(movietitle__icontains=q_word)
+            object_list = Movieinfo.objects.filter(movietitle__icontains=q_word)
         else:
-            object_movielist = Movieinfo.objects.all()
-        return object_movielist
+            object_list = Movieinfo.objects.all()
+        return object_list
 
 class Userbloglist(ListView):
     model = Movieblog
 
-    def get_queryset(self):
-        q_word = self.request.GET.get('query')
-        if q_word:
-            object_list = Movieblog.objects.filter(username__iexact=q_word)
+    def get_queryset(request):
+        object_list = Movieblog.objects.filter(user__exact="user")
         return object_list
+
+
+    #def get_queryset(self):
+    #    q_word = self.request.GET.get('query')
+    #    if q_word:
+    #        object_list = Movieblog.objects.filter(user__exact=q_word)
+    #    return object_list
 
     #if request.method == "GET":
         #print(request.POST)

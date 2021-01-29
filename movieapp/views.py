@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm, postMovieblogForm
-from users.models import User
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.views.generic import ListView, DetailView
 from .models import Movieinfo, Movieblog
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
+from django.views.decorators.http import require_POST
 # Create your views here.
+
+User = settings.AUTH_USER_MODEL
 
 def index(request):
     return render(request, 'index.html',)
@@ -40,22 +43,10 @@ class MovieList(ListView):
 class Userbloglist(ListView):
     model = Movieblog
 
-    def get_queryset(request):
-        object_list = Movieblog.objects.filter(user__exact="user")
+    def get_queryset(self):
+        user = self.request.GET.get('user')
+        object_list = Movieblog.objects.filter(user=user)
         return object_list
-
-
-    #def get_queryset(self):
-    #    q_word = self.request.GET.get('query')
-    #    if q_word:
-    #        object_list = Movieblog.objects.filter(user__exact=q_word)
-    #    return object_list
-
-    #if request.method == "GET":
-        #print(request.POST)
-        #print(request.POST['movieinfo'])
-    #    user = get_object_or_404(User, pk=request.GET('movieinfo'))
-    #return render(request, 'userdetail.html', {'user':user})
 
 class MovieDetail(DetailView):
     model = Movieinfo
@@ -79,6 +70,26 @@ def post_movieblog(request):
     else:
         form = postMovieblogForm
     return render(request, 'post_movieblog.html', {'form':form, 'movie':movie})
+
+@login_required
+@require_POST
+def toggle_fav_acount_status(request):
+    acount = get_object_or_404(User, pk=request.POST["user_id"])
+    user = request.user
+    if acount in user.fav_users.all():
+        user.fav_users.remove(acount)
+    else:
+        user.fav_users.add(acount)
+    return redirect('index.html', user_id=user.id)
+
+@login_required
+def fav_users(request):
+    user = request.user
+    users = user.fav_users.all()
+    return render(request, 'index.html', {'users': users})
+
+class FavList(ListView):
+    model = User
 
 class Detail(DetailView):
     model = Movieblog

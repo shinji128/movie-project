@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField("アカウント名", max_length=50, unique=True)
     is_staff = models.BooleanField("is_staff", default=False)
     is_active = models.BooleanField("is_active", default=True)
-    #fav_users = models.ManyToManyField(User, blank=True)
+    fav_users = models.ManyToManyField(User, blank=True)
     
     objects = UserManager()
     

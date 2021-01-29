@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" method="get">
-    <input name="query" value="{{ request.GET.query }}" type="text">
-    <button type="submit">検索する</button>
+<form action="{% url 'favlist' %}" method="post">{% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    {% if product in user.fav_users.all %}
+    <input type="submit" name="submit" class="fav_button" value="お気に入りから外す"/>
+    {% else %}
+    <input type="submit" name="submit" class="fav_button" value="お気に入りに入れる"/>
+    {% endif %}
 </form>
+
 <ol>
     {% for item in object_list %}
     <li><a href="{% url 'detail' item.id %}">{{ item.title }}</a></li>

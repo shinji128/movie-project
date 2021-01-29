@@ -1,2 +1,12 @@
 {% extends "base.html" %}
 
+{% block content %}
+
+<p>{{ user.username }}さん、こんにちは！</p>
+
+{% if 'fav_products' in request.path %}
+<div style="font-weight:bold; font-size: 28px; margin-bottom: 20px;">
+お気に入り投稿者
+</div>
+{% endif %}
+{% endblock %}

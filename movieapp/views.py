@@ -24,7 +24,6 @@ def fav_users(request):
 @require_POST
 def toggle_fav_receive_user_status(request):
     receive_user = get_object_or_404(FavUser, pk=request.POST["user_id"])
-    print(request.POST)
     send_user = request.user
     if receive_user in user.fav_users.all():
         user.fav_users.remove(receive_user)

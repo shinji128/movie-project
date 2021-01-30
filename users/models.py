@@ -32,14 +32,12 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True')
         return self._create_user(email, username, password, **extra_fields)
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     """カスタムユーザーモデル"""
     email = models.EmailField("メ-ルアドレス", unique=True) 
     username = models.CharField("アカウント名", max_length=50, unique=True)
     is_staff = models.BooleanField("is_staff", default=False)
     is_active = models.BooleanField("is_active", default=True)
-    fav_users = models.ManyToManyField(User, blank=True)
     
     objects = UserManager()
     

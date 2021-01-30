@@ -95,3 +95,15 @@ class Movieblog(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy("detail", args=[self.id])
+
+class FavUser(models.Model):
+    
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='send_user')
+    
+    user2 = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='receive_user')

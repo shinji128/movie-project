@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="{% url 'favlist' %}" method="post">{% csrf_token %}
-    <input type="hidden" name="product_id" value="{{ product.id }}">
+<form action="{% url 'toggle_fav_receive_user_status' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ user.id }}">
     {% if product in user.fav_users.all %}
     <input type="submit" name="submit" class="fav_button" value="お気に入りから外す"/>
     {% else %}
-    <input type="submit" name="submit" class="fav_button" value="お気に入りに入れる"/>
+    <input type="submit" name="submit" class="fav_button" value="お気に入り"/>
     {% endif %}
 </form>
 

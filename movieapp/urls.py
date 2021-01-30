@@ -18,9 +18,8 @@ urlpatterns = [
     path('update/<pk>/', views.Update.as_view(template_name='post_form.html'), name="update"),
     path('delete/<pk>', views.Delete.as_view(template_name='post_confirm_delete.html'), name="delete"),
     path('_delete/', views._delete, name='_delete'),
-    path('favlist/<int:pk>/', views.FavList, name='favlist'),
     path('fav_users/', views.fav_users, name='fav_users'),
-    path('toggle_fav_acount_status/', views.toggle_fav_acount_status, name='toggle_fav_acount_status'),
+    path('toggle_fav_receive_user_status/', views.toggle_fav_receive_user_status, name='toggle_fav_receive_user_status'),
 ]
 #post_list.html
 #path('list/', views.Movielist.as_view(template_name='movielist.html'), name='movielist'),

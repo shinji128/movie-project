@@ -3,7 +3,7 @@ from .forms import CustomUserCreationForm, postMovieblogForm
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.views.generic import ListView, DetailView
-from .models import Movieinfo, Movieblog
+from .models import Movieinfo, Movieblog, FavUser
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.decorators.http import require_POST
@@ -13,6 +13,24 @@ User = settings.AUTH_USER_MODEL
 
 def index(request):
     return render(request, 'index.html',)
+
+@login_required
+def fav_users(request):
+    send_user = request.user
+    receive_user = user.fav_users.all()
+    return render(request, 'index.html', {'receive_user': receive_user})
+
+@login_required
+@require_POST
+def toggle_fav_receive_user_status(request):
+    receive_user = get_object_or_404(FavUser, pk=request.POST["user_id"])
+    print(request.POST)
+    send_user = request.user
+    if receive_user in user.fav_users.all():
+        user.fav_users.remove(receive_user)
+    else:
+        user.fav_users.add(receive_user)
+    return redirect('index.html', user_id=user.id)
 
 def signup(request):
     if request.method == 'POST':
@@ -70,26 +88,6 @@ def post_movieblog(request):
     else:
         form = postMovieblogForm
     return render(request, 'post_movieblog.html', {'form':form, 'movie':movie})
-
-@login_required
-@require_POST
-def toggle_fav_acount_status(request):
-    acount = get_object_or_404(User, pk=request.POST["user_id"])
-    user = request.user
-    if acount in user.fav_users.all():
-        user.fav_users.remove(acount)
-    else:
-        user.fav_users.add(acount)
-    return redirect('index.html', user_id=user.id)
-
-@login_required
-def fav_users(request):
-    user = request.user
-    users = user.fav_users.all()
-    return render(request, 'index.html', {'users': users})
-
-class FavList(ListView):
-    model = User
 
 class Detail(DetailView):
     model = Movieblog

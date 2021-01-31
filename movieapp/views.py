@@ -16,8 +16,7 @@ def index(request):
 
 @login_required
 def fav_users(request):
-    send_user = request.user
-    receive_user = user.fav_users.all()
+    receive_user = FavUser.objects.filter(user=request.user)
     return render(request, 'index.html', {'receive_user': receive_user})
 
 @login_required
@@ -25,11 +24,33 @@ def fav_users(request):
 def toggle_fav_receive_user_status(request):
     receive_user = get_object_or_404(FavUser, pk=request.POST["user_id"])
     send_user = request.user
-    if receive_user in user.fav_users.all():
-        user.fav_users.remove(receive_user)
+    print(request.POST)
+    
+    # 既にfavが存在するか
+    exist_fav_user = FavUser.objects.filter(user=send_user)
+    if exist_fav_user.exists():
+        FavUser.objects.create(user=send_user,user2=receive_user)
     else:
-        user.fav_users.add(receive_user)
-    return redirect('index.html', user_id=user.id)
+        exist_fav_user.delete()
+    return redirect('userbloglist.html', user_id=send_user.id)
+
+
+#@login_required
+#def fav_users(request):
+#    send_user = request.user
+#    receive_user = user.fav_users.all()
+#    return render(request, 'index.html', {'receive_user': receive_user})
+
+#@login_required
+#@require_POST
+#def toggle_fav_receive_user_status(request):
+#    receive_user = get_object_or_404(FavUser, pk=request.POST["user_id"])
+#    send_user = request.user
+#    if receive_user in user.fav_users.all():
+#        user.fav_users.remove(receive_user)
+#    else:
+#        user.fav_users.add(receive_user)
+#    return redirect('index.html', user_id=user.id)
 
 def signup(request):
     if request.method == 'POST':

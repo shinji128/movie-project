@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="{% url 'toggle_fav_receive_user_status' %}" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user.id }}">
-    {% if product in user.fav_users.all %}
-    <input type="submit" name="submit" class="fav_button" value="お気に入りから外す"/>
-    {% else %}
-    <input type="submit" name="submit" class="fav_button" value="お気に入り"/>
-    {% endif %}
-</form>
+{{ object_list.username }}
 
 <ol>
     {% for item in object_list %}
+    {{ item.user.username }}
+
+    <form action="{% url 'userbloglist' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ item.user.id }}">
+        {% if product in user.fav_users.all %}
+        <input type="submit" name="submit" class="fav_button" value="お気に入りから外す"/>
+        {% else %}
+        <input type="submit" name="submit" class="fav_button" value="お気に入り"/>
+        {% endif %} 
+    </form>
+
     <li><a href="{% url 'detail' item.id %}">{{ item.title }}</a></li>
     {% endfor %}
 </ol>

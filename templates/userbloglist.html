@@ -7,7 +7,7 @@
     {% for item in object_list %}
     {{ item.user.username }}
 
-    <form action="{% url 'userbloglist' %}" method="post">
+    <form action="{% url 'toggle_fav_receive_user_status' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="user_id" value="{{ item.user.id }}">
         {% if product in user.fav_users.all %}

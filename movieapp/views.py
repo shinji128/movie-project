@@ -7,12 +7,15 @@ from .models import Movieinfo, Movieblog, FavUser
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.decorators.http import require_POST
+from users.models import User
 # Create your views here.
-
-User = settings.AUTH_USER_MODEL
 
 def index(request):
     return render(request, 'index.html',)
+    
+    #user = request.user
+    #receive_user = FavUser.objects.filter(user=request.user)
+    #return render(request, 'index.html',)
 
 @login_required
 def fav_users(request):
@@ -20,37 +23,19 @@ def fav_users(request):
     return render(request, 'index.html', {'receive_user': receive_user})
 
 @login_required
-@require_POST
 def toggle_fav_receive_user_status(request):
-    receive_user = get_object_or_404(FavUser, pk=request.POST["user_id"])
+    receive_user = get_object_or_404(User, pk=request.POST["user_id"])
     send_user = request.user
     print(request.POST)
-    
     # 既にfavが存在するか
     exist_fav_user = FavUser.objects.filter(user=send_user)
-    if exist_fav_user.exists():
-        FavUser.objects.create(user=send_user,user2=receive_user)
+    #存在しない場合が正しい
+    if not exist_fav_user.exists():
+        FavUser.objects.create(user=send_user, user2=receive_user)
     else:
         exist_fav_user.delete()
-    return redirect('userbloglist.html', user_id=send_user.id)
-
-
-#@login_required
-#def fav_users(request):
-#    send_user = request.user
-#    receive_user = user.fav_users.all()
-#    return render(request, 'index.html', {'receive_user': receive_user})
-
-#@login_required
-#@require_POST
-#def toggle_fav_receive_user_status(request):
-#    receive_user = get_object_or_404(FavUser, pk=request.POST["user_id"])
-#    send_user = request.user
-#    if receive_user in user.fav_users.all():
-#        user.fav_users.remove(receive_user)
-#    else:
-#        user.fav_users.add(receive_user)
-#    return redirect('index.html', user_id=user.id)
+    #前の画面のUrlの形に修正
+    return redirect('/userbloglist/' + str(send_user.id) + '/?user=' + request.POST["user_id"])
 
 def signup(request):
     if request.method == 'POST':
@@ -85,6 +70,17 @@ class Userbloglist(ListView):
         user = self.request.GET.get('user')
         object_list = Movieblog.objects.filter(user=user)
         return object_list
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        receive_user = self.request.GET.get('user')
+        send_user = self.request.user
+        #exist_fav_user = FavUser.objects.filter(user=send_user, user2=receive_user)
+        exist_fav_user = FavUser.objects.filter(user=send_user)
+        # お気に入りの存在有無を管理する変数
+        is_exist_fav = exist_fav_user.exists()
+        context['is_exist_fav'] = is_exist_fav
+        return context
 
 class MovieDetail(DetailView):
     model = Movieinfo

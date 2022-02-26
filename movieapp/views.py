@@ -11,8 +11,12 @@ from users.models import User
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html',)
-    
+    receive_user = FavUser.objects.filter(user=request.user)
+    return render(request, 'index.html', {'receive_user': receive_user})
+
+#def index(request):
+#    return render(request, 'index.html',)
+
     #user = request.user
     #receive_user = FavUser.objects.filter(user=request.user)
     #return render(request, 'index.html',)
@@ -73,10 +77,9 @@ class Userbloglist(ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        receive_user = self.request.GET.get('user')
+        receive_user_id = self.request.GET.get('user')
         send_user = self.request.user
-        #exist_fav_user = FavUser.objects.filter(user=send_user, user2=receive_user)
-        exist_fav_user = FavUser.objects.filter(user=send_user)
+        exist_fav_user = FavUser.objects.filter(user=send_user, user2__id=receive_user_id)
         # お気に入りの存在有無を管理する変数
         is_exist_fav = exist_fav_user.exists()
         context['is_exist_fav'] = is_exist_fav
